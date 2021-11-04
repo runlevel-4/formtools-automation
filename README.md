@@ -1,4 +1,4 @@
-# FormTools Installer Script
+# FormTools Installer
 
 This script will setup all of the prerequsite web server components and create a default FormTools database.
 
