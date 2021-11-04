@@ -1,39 +1,21 @@
-# FormTools Installer Script
+#!/bin/sh
 
-This script will setup all of the prerequsite web server components and create a default FormTools database.
+# Perform updates
+sudo apt update && sudo apt upgrade -y && sudo apt dist-upgrade -y
 
-=====================================================================
+# Install web components
+sudo apt install apache2 mysql-common mariadb-server php7.4 php7.4-mysql tar -y
 
-**DEBIAN USERS START HERE**
+# Download and install FormTools
+sudo wget https://formtools.org/download/packages/FormTools3.0.20-20191109.zip
+sudo unzip -q FormTools3.0.20-20191109.zip -d /var/www/html
 
-Debian/Raspberry Pi users will have to add the 3rd party _sury_ repository in order to download the proper php packages before continuing.
+# Configuring database environment
+echo
+echo "If you don't have a root password for your MySQL instance, just press Enter:"
+sudo mysql -u root -p < $HOME/formtools-automation/mysql_setup.sql
 
-`sudo apt update`
-
-`sudo apt install -y curl wget gnupg2 ca-certificates lsb-release apt-transport-https`
-
-`wget https://packages.sury.org/php/apt.gpg`
-
-`sudo apt-key add apt.gpg`
-
-`echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php7.list`
-
-The script will run the update and upgrade commands.
-
-=====================================================================
-
-**OTHERWISE START HERE**
-
-At the Linux command line:
-
-1. If _git_ is not installed, just run `sudo apt install git`
-2. `git clone https://github.com/runlevel-4/formtools-automation`
-3. `sh formtools-automation/install_formtools.sh`
-
-======================================================================
-
-**NOTE:** I recommend logging into MySQL/MariaDB and changing the root login as well as the password for the _formtools_ user.  Do this only if you plan on exposing your server to the internet.
-
-`sudo mysql -u root -p` (if you don't have a mysql password, just hit _Enter_)
-
-`ALTER USER 'formtools'@'localhost' IDENTIFIED BY 'newpassword';`
+# Setting folder permissions
+sudo chown -R www-data: /var/www/html/formtools
+echo
+echo "Now visit http://ServerIP/formtools/"
