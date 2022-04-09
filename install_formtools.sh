@@ -21,6 +21,9 @@ sudo apt update && sudo apt upgrade -y
 # Install web components
 sudo apt install apache2 mysql-common mariadb-server php7.4 php7.4-mysql -y
 
+# Install unzip utility
+sudo apt install unzip -y
+
 # Download and install FormTools
 sudo wget https://formtools.org/download/packages/FormTools3.0.20-05012022.zip
 sudo unzip -q FormTools3.0.20-20191109.zip -d /var/www/html
